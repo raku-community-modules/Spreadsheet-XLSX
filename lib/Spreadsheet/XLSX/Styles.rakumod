@@ -248,6 +248,13 @@ class Spreadsheet::XLSX::Styles does XMLRepresentation["styleSheet"] {
 
     class CellStyles is xml-sequence(<cellStyles>, CT_CellStyle) does XMLCounting { }
 
+    #| All number format records.
+    has NumberFormats:D $.number-formats is xml-elem .= new;
+
+    #| Every number format has an ID, but some IDs are allocated with
+    #| existing meanings. Thus, we track the maximum number of those.
+    has Int $!max-number-format-id = $!number-formats.map(*.id).max max 166;
+
     #| All font records in the styles.
     has Fonts:D $.fonts is xml-elem .= new(Font.new);
 
@@ -256,13 +263,6 @@ class Spreadsheet::XLSX::Styles does XMLRepresentation["styleSheet"] {
 
     #| All border records in the styles.
     has Borders:D $.borders is xml-elem .= new(Border.new);
-
-    #| All number format records.
-    has NumberFormats:D $.number-formats is xml-elem .= new;
-
-    #| Every number format has an ID, but some IDs are allocated with
-    #| existing meanings. Thus, we track the maximum number of those.
-    has Int $!max-number-format-id = $!number-formats.map(*.id).max max 166;
 
     #| All formatting records (referenced from cell formats).
     has Formats:D $.formatting-records is xml-elem<cellStyleXfs> .= new(Format.new);
