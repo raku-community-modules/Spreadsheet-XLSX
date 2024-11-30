@@ -1,15 +1,15 @@
 {
-  "name": "Spreadsheet::XLSX",
-  "description": "Work with Excel (XLSX) spreadsheets.",
-  "version": "0.3.1",
-  "perl": "6.*",
-  "auth": "zef:jnthn",
+  "auth": "zef:raku-community-modules",
+  "build-depends": [
+  ],
   "depends": [
     "Libarchive",
     "LibXML:ver<0.10.6+>"
   ],
-  "build-depends": [],
-  "test-depends": [],
+  "description": "blah blah blah",
+  "license": "Artistic-2.0",
+  "name": "Spreadsheet::XLSX",
+  "perl": "6.*",
   "provides": {
     "Spreadsheet::XLSX": "lib/Spreadsheet/XLSX.rakumod",
     "Spreadsheet::XLSX::Cell": "lib/Spreadsheet/XLSX/Cell.rakumod",
@@ -26,8 +26,13 @@
     "Spreadsheet::XLSX::Worksheet": "lib/Spreadsheet/XLSX/Worksheet.rakumod",
     "Spreadsheet::XLSX::XMLHelpers": "lib/Spreadsheet/XLSX/XMLHelpers.rakumod"
   },
-  "resources": [],
-  "license": "Artistic-2.0",
-  "source-url": "https://github.com/jnthn/spreadsheet-xlsx.git",
-  "raku": "6.*"
+  "raku": "6.*",
+  "resources": [
+  ],
+  "source-url": "https://github.com/raku-community-modules/Spreadsheet-XLSX.git",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "0.3.1"
 }

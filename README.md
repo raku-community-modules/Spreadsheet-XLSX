@@ -1,32 +1,38 @@
-# Spreadsheet::XLSX
+NAME
+====
 
-A Raku module for working with Excel spreadsheets (XLSX format), both
-reading existing files, creating new files, or modifying existing files
-and saving the changes. Of note, it:
+Spreadsheet::XLSX - blah blah blah
 
-* Knows how to lazily load sheet content, so if you don't look at a sheet
-  then time won't be spent deserializing it (down to a cell level, even)
-* In the modification scenario, tries to leave as much intact as it can,
-  meaning that it's possible to poke data into a sheet more complex than
-  could be produced by the module from scratch
-* Only depends on the Raku LibXML and Libarchive modules (and their
-  respective native dependencies)
+DESCRIPTION
+===========
 
-This module is currently in development, and supports the subset of XLSX
-format features that were immediately needed for the use-case it was built
-for. That isn't so much, for now, but it will handle the most common needs:
+A Raku module for working with Excel spreadsheets (XLSX format), both reading existing files, creating new files, or modifying existing files and saving the changes. Of note, it:
 
-* Enumerating worksheets
-* Reading text and numbers from cells on a worksheet
-* Creating new workbooks with worksheets with text and number cells
-* Setting basic styles and number formats on cells in newly created
-  worksheets
-* Reading a workbook, making modifications, and saving it again
-* Reading and writing column properties (such as column width)
+  * Knows how to lazily load sheet content, so if you don't look at a sheet then time won't be spent deserializing it (down to a cell level, even)
 
-## Synopsis
+  * In the modification scenario, tries to leave as much intact as it can, meaning that it's possible to poke data into a sheet more complex than could be produced by the module from scratch
 
-### Reading existing workbooks
+  * Only depends on the Raku `LibXML` and `Libarchive` modules (and their respective native dependencies)
+
+This module is currently in development, and supports the subset of XLSX format features that were immediately needed for the use-case it was built for. That isn't so much, for now, but it will handle the most common needs:
+
+  * Enumerating worksheets
+
+  * Reading text and numbers from cells on a worksheet
+
+  * Creating new workbooks with worksheets with text and number cells
+
+  * Setting basic styles and number formats on cells in newly created worksheets
+
+  * Reading a workbook, making modifications, and saving it again
+
+  * Reading and writing column properties (such as column width)
+
+SYNOPSIS
+========
+
+Reading existing workbooks
+--------------------------
 
 ```raku
 use Spreadsheet::XLSX;
@@ -50,7 +56,8 @@ say .value with $cells[1;0];      # A2
 say .value with $cells[1;1];      # B2
 ```
 
-### Creating new workbooks
+Creating new workbooks
+----------------------
 
 ```raku
 use Spreadsheet::XLSX;
@@ -83,9 +90,149 @@ $workbook.save("foo.xlsx");
 my $blob = $workbook.to-blob();
 ```
 
-## Credits
+Class / Method reference
+========================
 
-Thanks goes to [Agrammon](https://agrammon.ch/) for making the development of
-this module possible. If you need further development on the module and are
-willing to fund it (or other Raku ecosystem work), you can get in contact with
-[Edument](https://www.edument.se/en) or [Oetiker+Partner](https://www.oetiker.ch/en/).
+class Spreadsheet::XLSX
+-----------------------
+
+The actual outward facing class
+
+### has Hash $!archive
+
+Map of files in the decompressed archive we read from, if any.
+
+### has Spreadsheet::XLSX::ContentTypes $.content-types
+
+The content types of the workbook.
+
+### has Associative[Spreadsheet::XLSX::Relationships] %!relationships
+
+Map of loaded relationships for paths. (Those never used are not in here.)
+
+class Attribute+{<anon|2>}.new(handles => $("create-worksheet", "worksheets", "shared-strings", "styles"))
+----------------------------------------------------------------------------------------------------------
+
+The workbook itself.
+
+### has Spreadsheet::XLSX::DocProps::Core $!core-props
+
+Document Core Properties
+
+### multi method load
+
+```raku
+multi method load(
+    Str $file
+) returns Spreadsheet::XLSX
+```
+
+Load an Excel workbook from the file path identified by the given string.
+
+### multi method load
+
+```raku
+multi method load(
+    IO::Path $file
+) returns Spreadsheet::XLSX
+```
+
+Load an Excel workbook in the specified file.
+
+### multi method load
+
+```raku
+multi method load(
+    Blob $content
+) returns Spreadsheet::XLSX
+```
+
+Load an Excel workbook from the specified blob. This is useful in the case it was sent over the network, and so never written to disk.
+
+### method find-relationships
+
+```raku
+method find-relationships(
+    Str $path,
+    Bool :$create = Bool::False
+) returns Spreadsheet::XLSX::Relationships
+```
+
+Get the relationships for a given path in the XLSX archive.
+
+### method get-file-from-archive
+
+```raku
+method get-file-from-archive(
+    Str $path
+) returns Blob
+```
+
+Obtain a file from the archive. Will fail if we are not backed by an archive, or if there is no such file.
+
+### method set-file-in-archive
+
+```raku
+method set-file-in-archive(
+    Str $path,
+    Blob $content
+) returns Nil
+```
+
+Set the content of a file in the archive, replacing any existing content.
+
+### method to-blob
+
+```raku
+method to-blob() returns Blob
+```
+
+Serializes the current state of the spreadsheet into XLSX format and returns a Blob containing it.
+
+### multi method save
+
+```raku
+multi method save(
+    Str $file
+) returns Nil
+```
+
+Saves the Excel workbook to the file path identified by the given string.
+
+### multi method save
+
+```raku
+multi method save(
+    IO::Path $file
+) returns Nil
+```
+
+Save an Excel workbook to the specified file.
+
+### method sync-to-archive
+
+```raku
+method sync-to-archive() returns Nil
+```
+
+Synchronizes all changes to the internal representation of the archive. This is performed automatically before saving, and there is no need to explicitly perform it.
+
+CREDITS
+=======
+
+Thanks goes to [Agrammon](https://agrammon.ch/) for making the development of this module possible.
+
+AUTHOR
+======
+
+Jonathan Worthington
+
+COPYRIGHT AND LICENSE
+=====================
+
+Copyright 2020 - 2024 Jonathan Worthington
+
+Copyright 2024 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+

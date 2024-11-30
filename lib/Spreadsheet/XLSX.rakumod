@@ -1,3 +1,111 @@
+=begin pod
+
+=head1 NAME
+
+Spreadsheet::XLSX - blah blah blah
+
+=head1 DESCRIPTION
+
+A Raku module for working with Excel spreadsheets (XLSX format), both
+reading existing files, creating new files, or modifying existing files
+and saving the changes. Of note, it:
+
+=item Knows how to lazily load sheet content, so if you don't look at a
+sheet then time won't be spent deserializing it (down to a cell level,
+even)
+
+=item In the modification scenario, tries to leave as much intact as it
+can, meaning that it's possible to poke data into a sheet more complex
+than could be produced by the module from scratch
+
+=item Only depends on the Raku C<LibXML> and C<Libarchive> modules (and
+their respective native dependencies)
+
+This module is currently in development, and supports the subset of
+XLSX format features that were immediately needed for the use-case it
+was built for. That isn't so much, for now, but it will handle the most
+common needs:
+
+=item Enumerating worksheets
+
+=item Reading text and numbers from cells on a worksheet
+
+=item Creating new workbooks with worksheets with text and number cells
+
+=item Setting basic styles and number formats on cells in newly created
+worksheets
+
+=item Reading a workbook, making modifications, and saving it again
+
+=item Reading and writing column properties (such as column width)
+
+=head1 SYNOPSIS
+
+=head2 Reading existing workbooks
+
+=begin code :lang<raku>
+
+use Spreadsheet::XLSX;
+
+# Read a workbook from an existing file (can pass IO::Path or a
+# Blob in the case it was uploaded).
+my $workbook = Spreadsheet::XLSX.load('accounts.xlsx');
+
+# Get worksheets.
+say "Workbook has {$workbook.worksheets.elems} sheets";
+
+# Get the name of a worksheet.
+say $workbook.worksheets.name;
+
+# Get cell values (indexing is zero-based, done as a multi-dimensional array
+# indexing operation [row ; column].
+my $cells = $workbook.worksheets[0].cells;
+say .value with $cells[0;0];      # A1
+say .value with $cells[0;1];      # B1
+say .value with $cells[1;0];      # A2
+say .value with $cells[1;1];      # B2
+
+=end code
+
+=head2 Creating new workbooks
+
+=begin code :lang<raku>
+
+use Spreadsheet::XLSX;
+
+# Create a new workbook and add some worksheets to it.
+my $workbook = Spreadsheet::XLSX.new;
+my $sheet-a = $workbook.create-worksheet('Ingredients');
+my $sheet-b = $workbook.create-worksheet('Matching Drinks');
+
+# Put some data into a worksheet and style it. This is how the model
+# actually works (useful if you want to add styles later).
+$sheet-a.cells[0;0] = Spreadsheet::XLSX::Cell::Text.new(value => 'Ingredient');
+$sheet-a.cells[0;0].style.bold = True;
+$sheet-a.cells[0;1] = Spreadsheet::XLSX::Cell::Text.new(value => 'Quantity');
+$sheet-a.cells[0;1].style.bold = True;
+$sheet-a.cells[1;0] = Spreadsheet::XLSX::Cell::Text.new(value => 'Eggs');
+$sheet-a.cells[1;1] = Spreadsheet::XLSX::Cell::Number.new(value => 6);
+$sheet-a.cells[1;1].style.number-format = '#,###';
+
+# However, there is a convenience form too.
+$sheet-a.set(0, 0, 'Ingredient', :bold);
+$sheet-a.set(0, 1, 'Quantity', :bold);
+$sheet-a.set(1, 0, 'Eggs');
+$sheet-a.set(1, 1, 6, :number-format('#,###'));
+
+# Save it to a file (string or IO::Path name).
+$workbook.save("foo.xlsx");
+
+# Or get it as a blob, e.g. for a HTTP response.
+my $blob = $workbook.to-blob();
+
+=end code
+
+=head1 Class / Method reference
+
+=end pod
+
 use Libarchive::Simple;
 use Spreadsheet::XLSX::ContentTypes;
 use Spreadsheet::XLSX::DocProps::Core;
@@ -7,6 +115,8 @@ use Spreadsheet::XLSX::Root;
 use Spreadsheet::XLSX::Workbook;
 use Spreadsheet::XLSX::Worksheet;
 
+
+#| The actual outward facing class
 class Spreadsheet::XLSX does Spreadsheet::XLSX::Root {
     #| Map of files in the decompressed archive we read from, if any.
     has Hash $!archive;
@@ -106,7 +216,7 @@ class Spreadsheet::XLSX does Spreadsheet::XLSX::Root {
             // die X::Spreadsheet::XLSX::Format.new: message => "$what file '$file' not found in archive"
     }
 
-    #| Loads the workbook XML file from the archive.
+    # Loads the workbook XML file from the archive.
     method !load-workbook-xml(Str $workbook-file) {
         $!workbook = Spreadsheet::XLSX::Workbook.from-xml:
             self!archive-file($workbook-file, "Workbook").decode('utf-8'),
@@ -143,7 +253,7 @@ class Spreadsheet::XLSX does Spreadsheet::XLSX::Root {
         }
     }
 
-    #| Calculate the path of the relations file for a given path.
+    # Calculate the path of the relations file for a given path.
     method !rel-path(Str $path --> Str) {
         if $path eq '' {
             '_rels/.rels';
@@ -253,3 +363,24 @@ multi sub postcircumfix:<[ ]>( Spreadsheet::XLSX::Worksheet::Cells:D $c,
 {
     $c.ASSIGN-POS($ref, $value)
 }
+
+=begin pod
+
+=head1 CREDITS
+
+Thanks goes to L<Agrammon|https://agrammon.ch/> for making the
+development of this module possible.
+
+=head1 AUTHOR
+
+Jonathan Worthington
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2020 - 2024 Jonathan Worthington
+
+Copyright 2024 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+
+=end pod
