@@ -1,12 +1,15 @@
 {
   "auth": "zef:raku-community-modules",
+  "author": [
+    "Jonathan Worthington"
+  ],
   "build-depends": [
   ],
   "depends": [
     "Libarchive",
     "LibXML:ver<0.10.6+>"
   ],
-  "description": "blah blah blah",
+  "description": "Work with Excel (XLSX) spreadsheets",
   "license": "Artistic-2.0",
   "name": "Spreadsheet::XLSX",
   "perl": "6.*",
@@ -30,9 +33,9 @@
   "resources": [
   ],
   "source-url": "https://github.com/raku-community-modules/Spreadsheet-XLSX.git",
-  "tags": [
+  "tags": [ "SPREADSHEET", "XLSX"
   ],
   "test-depends": [
   ],
-  "version": "0.3.1"
+  "version": "0.3.2"
 }

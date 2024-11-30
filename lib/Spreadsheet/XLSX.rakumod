@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Spreadsheet::XLSX - blah blah blah
+Spreadsheet::XLSX - Work with Excel (XLSX) spreadsheets
 
 =head1 DESCRIPTION
 

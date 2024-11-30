@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/raku-community-modules/Spreadsheet-XLSX/actions/workflows/linux.yml/badge.svg)](https://github.com/raku-community-modules/Spreadsheet-XLSX/actions)
+
 NAME
 ====
 
