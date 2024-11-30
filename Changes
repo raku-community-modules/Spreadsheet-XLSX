@@ -1,4 +1,6 @@
 Revision history for Spreadsheet-XLSX
 
 {{$NEXT}}
+
+0.3.2  2024-11-30T16:15:25+01:00
     - Initial version as a Raku Community module
