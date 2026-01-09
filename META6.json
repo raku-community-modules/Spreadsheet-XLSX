@@ -1,18 +1,22 @@
 {
   "auth": "zef:raku-community-modules",
-  "author": [
-    "Jonathan Worthington"
+  "authors": [
+    [
+      "Jonathan Worthington",
+      "Raku Community"
+    ]
   ],
-  "build-depends": [
-  ],
-  "depends": [
-    "Libarchive",
-    "LibXML:ver<0.10.6+>"
-  ],
+  "depends": {
+    "runtime": {
+      "requires": [
+        "Libarchive",
+        "LibXML:ver<0.10.19+>"
+      ]
+    }
+  },
   "description": "Work with Excel (XLSX) spreadsheets",
   "license": "Artistic-2.0",
   "name": "Spreadsheet::XLSX",
-  "perl": "6.*",
   "provides": {
     "Spreadsheet::XLSX": "lib/Spreadsheet/XLSX.rakumod",
     "Spreadsheet::XLSX::Cell": "lib/Spreadsheet/XLSX/Cell.rakumod",
@@ -30,12 +34,14 @@
     "Spreadsheet::XLSX::XMLHelpers": "lib/Spreadsheet/XLSX/XMLHelpers.rakumod"
   },
   "raku": "6.*",
-  "resources": [
-  ],
-  "source-url": "https://github.com/raku-community-modules/Spreadsheet-XLSX.git",
-  "tags": [ "SPREADSHEET", "XLSX"
-  ],
-  "test-depends": [
+  "support": {
+    "bugtracker": "https://github.com/raku-community-modules/Spreadsheet-XLSX/issues",
+    "email": "community@raku.org",
+    "source": "https://github.com/raku-community-modules/Spreadsheet-XLSX.git"
+  },
+  "tags": [
+    "SPREADSHEET",
+    "XLSX"
   ],
   "version": "0.3.2"
 }

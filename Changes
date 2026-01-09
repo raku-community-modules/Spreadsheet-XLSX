@@ -1,6 +1,9 @@
 Revision history for Spreadsheet-XLSX
 
 {{$NEXT}}
+    - Un-break column indexing with new reduction behavior
+    - Up dependency on LibXML, because we can
+    - Modernize META6.json
 
 0.3.2  2024-11-30T16:15:25+01:00
     - Initial version as a Raku Community module

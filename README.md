@@ -3,7 +3,7 @@
 NAME
 ====
 
-Spreadsheet::XLSX - blah blah blah
+Spreadsheet::XLSX - Work with Excel (XLSX) spreadsheets
 
 DESCRIPTION
 ===========
@@ -112,8 +112,7 @@ The content types of the workbook.
 
 Map of loaded relationships for paths. (Those never used are not in here.)
 
-class Attribute+{<anon|2>}.new(handles => $("create-worksheet", "worksheets", "shared-strings", "styles"))
-----------------------------------------------------------------------------------------------------------
+### has Spreadsheet::XLSX::Workbook $.workbook
 
 The workbook itself.
 
@@ -234,7 +233,7 @@ COPYRIGHT AND LICENSE
 
 Copyright 2020 - 2024 Jonathan Worthington
 
-Copyright 2024 Raku Community
+Copyright 2024, 2026 Raku Community
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
