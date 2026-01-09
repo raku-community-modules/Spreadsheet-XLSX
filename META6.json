@@ -6,6 +6,8 @@
       "Raku Community"
     ]
   ],
+  "build-depends": [
+  ],
   "depends": {
     "runtime": {
       "requires": [
@@ -34,6 +36,9 @@
     "Spreadsheet::XLSX::XMLHelpers": "lib/Spreadsheet/XLSX/XMLHelpers.rakumod"
   },
   "raku": "6.*",
+  "resources": [
+  ],
+  "source-url": "https://github.com/raku-community-modules/Spreadsheet-XLSX.git",
   "support": {
     "bugtracker": "https://github.com/raku-community-modules/Spreadsheet-XLSX/issues",
     "email": "community@raku.org",
@@ -43,5 +48,7 @@
     "SPREADSHEET",
     "XLSX"
   ],
-  "version": "0.3.2"
+  "test-depends": [
+  ],
+  "version": "0.3.3"
 }

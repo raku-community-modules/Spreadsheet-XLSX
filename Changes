@@ -1,6 +1,8 @@
 Revision history for Spreadsheet-XLSX
 
 {{$NEXT}}
+
+0.3.3  2026-01-09T19:52:28+01:00
     - Un-break column indexing with new reduction behavior
     - Up dependency on LibXML, because we can
     - Modernize META6.json
