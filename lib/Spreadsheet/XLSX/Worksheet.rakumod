@@ -45,7 +45,9 @@ class Spreadsheet::XLSX::Worksheet {
         method idx-from-colref(Str:D $colref --> UInt:D) {
             my @chars = $colref.comb;
             die "Invalid column reference '$colref'" unless "A" le @chars.all le "Z";
-            @chars.map(*.ord - 65).cache andthen (|.head(*-1).map(* + 1), .tail).reduce({ $^a *26 + $^b })
+            my @high-place-values = @chars.head(*-1).map(*.ord - 'A'.ord + 1);
+            my $lowest-place-value = @chars.tail.ord - 'A'.ord;
+            @high-place-values.Slip andthen ($_, $lowest-place-value).reduce({ $^a * 26 + $^b }) orelse $lowest-place-value
         }
 
         #| Convert a 0-based index into column reference (name)
