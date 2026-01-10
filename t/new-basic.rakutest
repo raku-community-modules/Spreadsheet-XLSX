@@ -14,8 +14,8 @@ given $sheet.core-properties {
     isa-ok $_, Spreadsheet::XLSX::DocProps::Core;
     is .keys.elems, 0, "new spreadhseet doesn't have any core properties";
 
-    lives-ok { .<creator> = "robot" }, "assginment to a simple string property";
-    lives-ok { .<created> = $created-at }, "assginment to a date property";
+    lives-ok { .<creator> = "robot" }, "assignment to a simple string property";
+    lives-ok { .<created> = $created-at }, "assignment to a date property";
     .<description> = "foo & bar";
 
     nok (.<keywords>:exists), "no keywords in a new document";

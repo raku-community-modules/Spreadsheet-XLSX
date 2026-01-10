@@ -1,0 +1,26 @@
+use Test;
+
+use Spreadsheet::XLSX;
+
+lives-ok {
+    # Read a workbook from an existing file (can pass IO::Path or a
+    # Blob in the case it was uploaded).
+    #my $file = 'accounts.xlsx';
+    my $file = 't/test-data/basic.xlsx';
+    my $workbook = Spreadsheet::XLSX.load($file);
+
+    # Get worksheets.
+    my $worksheets = $workbook.worksheets;
+    say "Workbook has {$worksheets.elems} sheets";
+
+    # Get the name of a worksheet.
+    my $sheetname0 = $workbook.worksheets[0].name;
+
+    # Get cell values (indexing is zero-based, done as a multi-dimensional array
+    # indexing operation [row ; column].
+    my $cells = $workbook.worksheets[0].cells;
+    say .value with $cells[0;0];      # A1
+    say .value with $cells[0;1];      # B1
+}, "example tests run ok";
+
+done-testing;
