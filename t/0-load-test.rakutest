@@ -1,0 +1,25 @@
+use Test;
+
+my @modules = <
+    Spreadsheet::XLSX
+    Spreadsheet::XLSX::Styles
+    Spreadsheet::XLSX::Worksheet
+    Spreadsheet::XLSX::XMLHelpers
+    Spreadsheet::XLSX::ContentTypes
+    Spreadsheet::XLSX::Types
+    Spreadsheet::XLSX::SharedStrings
+    Spreadsheet::XLSX::CellStyle
+    Spreadsheet::XLSX::Root
+    Spreadsheet::XLSX::Workbook
+    Spreadsheet::XLSX::Exceptions
+    Spreadsheet::XLSX::Cell
+    Spreadsheet::XLSX::Relationships
+    Spreadsheet::XLSX::DocProps::Core
+>;
+
+plan @modules.elems;
+
+for @modules {
+    use-ok $_;
+}
+

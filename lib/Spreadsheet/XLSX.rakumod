@@ -49,13 +49,15 @@ use Spreadsheet::XLSX;
 
 # Read a workbook from an existing file (can pass IO::Path or a
 # Blob in the case it was uploaded).
-my $workbook = Spreadsheet::XLSX.load('accounts.xlsx');
+my $file = 'accounts.xlsx';
+my $workbook = Spreadsheet::XLSX.load($file);
 
 # Get worksheets.
-say "Workbook has {$workbook.worksheets.elems} sheets";
+my $worksheets = $workbook.worksheets;
+say "Workbook has {$worksheets.elems} sheets";
 
 # Get the name of a worksheet.
-say $workbook.worksheets.name;
+my $sheetname0 = $workbook.worksheets[0].name;
 
 # Get cell values (indexing is zero-based, done as a multi-dimensional array
 # indexing operation [row ; column].

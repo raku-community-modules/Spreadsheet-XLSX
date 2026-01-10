@@ -1,6 +1,13 @@
 Revision history for Spreadsheet-XLSX
 
 {{$NEXT}}
+    - Add source-url to dist.ini to aid PR handling
+    - Correct and tweak README examples; correct spellings
+    - Add a load test to aid developers
+    - Add a README test to ensure exmples are correct
+    - Add a TODO file
+    - Add a simple CSV file ready to be used for future use
+    - Addresses issue #30
 
 0.3.3  2026-01-09T19:52:28+01:00
     - Un-break column indexing with new reduction behavior
