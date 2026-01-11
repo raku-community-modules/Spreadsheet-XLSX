@@ -1,6 +1,8 @@
 Revision history for Spreadsheet-XLSX
 
 {{$NEXT}}
+
+0.3.5  2026-01-11T15:22:43+01:00
     - Add source-url to dist.ini to aid PR handling
     - Correct and tweak README examples; correct spellings
     - Add a load test to aid developers
@@ -8,6 +10,7 @@ Revision history for Spreadsheet-XLSX
     - Add a TODO file
     - Add a simple CSV file ready to be used for future use
     - Addresses issue #30
+    - Skip rogue release 0.3.4
 
 0.3.3  2026-01-09T19:52:28+01:00
     - Un-break column indexing with new reduction behavior

@@ -114,8 +114,7 @@ The content types of the workbook.
 
 Map of loaded relationships for paths. (Those never used are not in here.)
 
-class Attribute+{<anon|2>}.new(handles => $("create-worksheet", "worksheets", "shared-strings", "styles"))
-----------------------------------------------------------------------------------------------------------
+### has Spreadsheet::XLSX::Workbook $.workbook
 
 The workbook itself.
 
