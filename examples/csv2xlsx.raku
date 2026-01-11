@@ -1,6 +1,7 @@
 #!/usr/bin/env raku
 
 use CSV::Table;
+use Spreadsheet::XLSX;
 
 if not @*ARGS {
     print qq:to/HERE/;
@@ -67,3 +68,49 @@ if $errs {
 
 say "Working on the input CSV file ($csv)..." if $debug;
 my $ct = CSV::Table.new: :$csv;
+# iterate over the rows and columns
+# make sure it has a header row
+unless $ct.has-header {
+    say "No header row, so I lost interest...";
+    say "  Exiting.";
+    exit;
+}
+my $schar = $ct.separator;
+say qq:to/HERE/;
+has-header: {$ct.has-header}
+field separator: '{$ct.separator}'
+number of rows: {$ct.rows}
+number of cols: {$ct.cols}
+HERE
+
+#say "Fields:";
+for 0..^$ct.fields -> $i {
+    print $schar if $i;
+    print $ct.field[$i];
+}
+say();
+for 0..^$ct.rows -> $i {
+    say "row $i" if $debug;
+    for 0..^$ct.cols -> $j {
+        print $schar if $j;
+        my $s = $ct.rowcol($i, $j);
+        print $s if $s.defined;
+    }
+    say();
+}
+say();
+
+# create a new workbook and add a worksheet
+my $wb = Spreadsheet::XLSX.new;
+my $ws = $wb.create-worksheet("data");
+
+=begin comment
+
+# use convenience forms to add data
+$ws.set($row-num, $col-num, $text, :number-format("#,###"));
+=end comment
+
+# save it
+$wb.save: $xlsx;
+say "See new xlsx file: $xlsx";
+

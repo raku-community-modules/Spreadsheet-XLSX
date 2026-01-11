@@ -31,7 +31,7 @@ lives-ok {
    isa-ok $csv, CSV::Table;
 
    my $xlsx = "example.xlsx";
-   run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx";
+   run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx", "force";;
 
 }, "example scripts run ok";
 
