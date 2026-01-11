@@ -1,5 +1,7 @@
 #!/usr/bin/env raku
 
+use CSV::Table;
+
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} <args> [options]
@@ -63,3 +65,5 @@ if $errs {
     exit;
 }
 
+say "Working on the input CSV file ($csv)..." if $debug;
+my $ct = CSV::Table.new: :$csv;
