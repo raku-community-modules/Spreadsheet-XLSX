@@ -42,17 +42,24 @@ unless $csv.IO.r {
     say "ERROR: The csv file, $csv, does not exist or is unreadable.";
     ++$errs;
 }
-if not $xlsx.defined {
+if not $xlsx {
     say "ERROR: The xlsx file name is missing.";
     ++$errs;
 }
-elsif $xlsx.IO.e {
-    if $force {
-        say "NOTE: The xslx file '$xlsx' is being overwritten.";
-    }
-    else {
-        say "ERROR: The xlsx file exists.";
-        say "       Use the 'force' option to overwrite it.";
-        ++$errs;
-    }
+elsif $xlsx {
+    if $xlsx.IO.r {
+        if $force {
+            say "NOTE: The xslx file '$xlsx' is being overwritten.";
+        }
+        else {
+            say "ERROR: The xlsx file exists.";
+            say "       Use the 'force' option to overwrite it.";
+            ++$errs;
+        }
+     }
 }
+if $errs {
+    say "FATAL: Too many errors.";
+    exit;
+}
+
