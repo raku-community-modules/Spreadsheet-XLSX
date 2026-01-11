@@ -30,6 +30,9 @@ lives-ok {
    my $csv = CSV::Table.new: :csv($csv-fil);
    isa-ok $csv, CSV::Table;
 
+   my $xlsx = "example.xlsx;
+   run csv2xlxs, :$csv, :$xlsx;
+
 
 }, "example scripts run ok";
 
