@@ -39,6 +39,8 @@ worksheets
 
 =item Reading and writing column properties (such as column width)
 
+See the C</examples directory> for some Raku scripts demonstrating its current state.
+
 =head1 SYNOPSIS
 
 =head2 Reading existing workbooks

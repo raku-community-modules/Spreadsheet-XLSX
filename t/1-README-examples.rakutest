@@ -23,4 +23,14 @@ lives-ok {
     say .value with $cells[0;1];      # B1
 }, "example tests run ok";
 
+lives-ok {
+   # convert a CSV file to an XLSX file
+   use CSV::Table;
+   my $csv-fil = "t/test-data/example.csv";
+   my $csv = CSV::Table.new: :csv($csv-fil);
+   isa-ok $csv, CSV::Table;
+
+
+}, "example scripts run ok";
+
 done-testing;

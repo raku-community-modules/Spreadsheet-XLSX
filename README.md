@@ -30,6 +30,8 @@ This module is currently in development, and supports the subset of XLSX format 
 
   * Reading and writing column properties (such as column width)
 
+See the `/examples directory` for some Raku scripts demonstrating its current state.
+
 SYNOPSIS
 ========
 
@@ -114,7 +116,8 @@ The content types of the workbook.
 
 Map of loaded relationships for paths. (Those never used are not in here.)
 
-### has Spreadsheet::XLSX::Workbook $.workbook
+class Attribute+{<anon|2>}.new(handles => $("create-worksheet", "worksheets", "shared-strings", "styles"))
+----------------------------------------------------------------------------------------------------------
 
 The workbook itself.
 

@@ -1,0 +1,79 @@
+# from ChatGPT (2026-01-10)
+#
+# This helper avoids fez's blind password prompt by letting the shell handle input, then feeding it via stdin.
+#
+# It does not store credentials, does not write files, and does not expose the passworf in history or on the command line.
+#
+# Great — then the function I gave is already a perfect fit. Here’s a
+# slightly improved bash-only version that also:
+#
+# disables history expansion while you type/confirm (extra
+# belt-and-suspenders),
+#
+# uses bash’s read -r -t directly (no portability shims needed),
+#
+# restores terminal state and history settings on exit.
+#
+# Drop this into ~/.bashrc (or ~/.bash_aliases):
+#
+fez-login-safe() {
+    # Seconds before we discard the typed password if you don't confirm:
+    local ttl=30
+
+    local old_stty
+    local pass=""
+    local answer=""
+    local old_histchars
+    local old_histexpand
+
+    old_stty="$(stty -g 2>/dev/null)"
+
+    # Reduce accidental history-related weirdness (belt-and-suspenders).
+    old_histexpand="$(shopt -p histexpand 2>/dev/null || true)"
+    shopt -u histexpand 2>/dev/null || true
+
+    cleanup() {
+        # Restore terminal settings
+        if [ -n "$old_stty" ]; then
+            stty "$old_stty" 2>/dev/null
+        else
+            stty echo 2>/dev/null
+        fi
+
+        # Restore history expansion setting
+        if [ -n "$old_histexpand" ]; then
+            eval "$old_histexpand" 2>/dev/null || true
+        fi
+
+        pass=""
+    }
+    trap cleanup INT TERM HUP EXIT
+
+    printf "Fez password (VISIBLE; verify before submit): "
+    stty echo 2>/dev/null
+    IFS= read -r pass
+    stty -echo 2>/dev/null
+    printf "\n"
+
+    if [ -z "$pass" ]; then
+        printf "No password entered; aborting.\n"
+        return 1
+    fi
+
+    printf "Confirm submit within %s seconds [y/N]: " "$ttl"
+    if ! IFS= read -r -t "$ttl" answer; then
+        printf "\nTimed out; discarded password (no submission).\n"
+        return 1
+    fi
+
+    case "$answer" in
+        y|Y|yes|YES)
+            printf "Submitting...\n"
+            printf '%s\n' "$pass" | fez login
+            ;;
+        *)
+            printf "Not submitted.\n"
+            return 1
+            ;;
+    esac
+}
