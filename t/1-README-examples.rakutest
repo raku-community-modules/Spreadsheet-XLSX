@@ -7,14 +7,15 @@ my $debug = 0;
 
 # Read a workbook from an existing file (can pass IO::Path or a
 # Blob in the case it was uploaded).
-#my $file = 'accounts.xlsx';
 my $file = 't/test-data/basic.xlsx';
 my $workbook = Spreadsheet::XLSX.load($file);
 isa-ok $workbook, Spreadsheet::XLSX;
 
 # Get worksheets.
 my $worksheets = $workbook.worksheets;
-say "Workbook has {$worksheets.elems} sheets" if $debug;
+my $nsheets = $worksheets.elems;
+is $nsheets, 2;
+say "Workbook has $nsheets sheets" if $debug;
 
 # Get the name of a worksheet.
 my $sheetname0 = $workbook.worksheets[0].name;
@@ -22,25 +23,34 @@ my $sheetname0 = $workbook.worksheets[0].name;
 # Get cell values (indexing is zero-based, done as a multi-dimensional array
 # indexing operation [row ; column].
 my $cells = $workbook.worksheets[0].cells;
-#say .value with $cells[0;0] if $debug;      # A1
-#say .value with $cells[0;1] if $debug;      # B1
-#"example tests run ok";
 
-#done-testing;
+my $aval = $cells[0;0].value;
+is $aval, 'Band';
+my $bval = $cells[0;1].value;
+is $bval, 'Song';
 
-#=finish
+if $debug {
+    say .value with $cells[0;0];      # A1
+    say .value with $cells[0;1];      # B1
+}
+
 # convert a CSV file to an XLSX file
 my $csv-fil = "t/test-data/example.csv";
 my $csv = CSV::Table.new: :csv($csv-fil);
 isa-ok $csv, CSV::Table;
 
-my $xlsx = "example.xlsx";
-
-=begin comment
 lives-ok {
-    run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx", "force";
+    # convert a CSV file to an XLSX file
+    my $csv-fil = "t/test-data/example.csv";
+    my $xlsx = "example.xlsx";
+    run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx", "force", :out;
+
+    my $res = shell "file $xlsx", :out;
+    my $typ = $res.out.slurp(:close);
+    $typ .= trim;
+    say "File type is: $typ" if $debug;
+    cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", "got correct file type: Excel";
 
 }, "example scripts run ok";
-=end comment
 
 done-testing;
