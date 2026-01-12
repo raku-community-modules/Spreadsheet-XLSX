@@ -1,5 +1,6 @@
 #!/usr/bin/env raku
 
+use Test;
 use CSV::Table;
 use Spreadsheet::XLSX;
 
@@ -79,11 +80,11 @@ my $schar = $ct.separator;
 say qq:to/HERE/;
 has-header: {$ct.has-header}
 field separator: '{$ct.separator}'
-number of rows: {$ct.rows}
-number of cols: {$ct.cols}
+number of fields: {$ct.fields}
+number of rows:   {$ct.rows}
+number of cols:   {$ct.cols}
 HERE
 
-#say "Fields:";
 for 0..^$ct.fields -> $i {
     print $schar if $i;
     print $ct.field[$i];
@@ -102,12 +103,65 @@ say();
 
 # create a new workbook and add a worksheet
 my $wb = Spreadsheet::XLSX.new;
+isa-ok $wb, Spreadsheet::XLSX;
 my $ws = $wb.create-worksheet("data");
 
-=begin comment
+# fill it with data
+# the header row...
+for 0..^$ct.fields -> $i {
+    my $text = $ct.field[$i];
+    my $row-num = 0;
+    my $col-num = $i;
+    if $text ~~ Numeric {
+        $ws.cells[$row-num;$col-num] = 
+            Spreadsheet::XLSX::Cell::Number.new(value => $text);
+        $ws.cells[$row-num;$col-num].style.number-format = "#,###";
 
+        #$ws.set($row-num, $col-num, $text, :number-format("#,###"));
+    }
+    else {
+        $ws.cells[$row-num;$col-num] = 
+            Spreadsheet::XLSX::Cell::Text.new(value => $text);
+        $ws.cells[$row-num;$col-num].style.bold = True;
+
+        #$ws.set($row-num, $col-num, $text, :bold);
+    }
+}
+# the data rows...
+# note the new row numbers need adjusting if our input has a header row
+#   which affects the row number by 1 (or more)
+for 0..^$ct.rows -> $cti {
+    my $row-num = $cti;
+    if $ct.has-header {
+        ++$row-num;
+    }
+
+    say "row $row-num" if $debug;
+    for 0..^$ct.cols -> $j {
+        #print $schar if $j;
+        #print $s if $s.defined;
+        my $text = $ct.rowcol($row-num, $j) // "";
+        my $col-num = $j;
+        if $text ~~ Numeric {
+            $ws.cells[$row-num;$col-num] = 
+                Spreadsheet::XLSX::Cell::Number.new(value => $text);
+            $ws.cells[$row-num;$col-num].style.number-format = "#,###";
+
+            #$ws.set($row-num, $col-num, $text, :number-format("#,###"));
+        }
+        else {
+            $ws.cells[$row-num;$col-num] = 
+                Spreadsheet::XLSX::Cell::Text.new(value => $text);
+            $ws.cells[$row-num;$col-num].style.bold = True;
+
+            #$ws.set($row-num, $col-num, $text, :bold);
+        }
+    }
+}
+=begin comment
 # use convenience forms to add data
-$ws.set($row-num, $col-num, $text, :number-format("#,###"));
+$ws.set($row-num, $col-num, $text, :bold);
+$ws.set($row-num, $col-num, $number, :number-format("#,###"));
 =end comment
 
 # save it
