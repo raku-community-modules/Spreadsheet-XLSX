@@ -39,6 +39,7 @@ Reading existing workbooks
 --------------------------
 
 ```raku
+use Macos::NativeLib '*';
 use Spreadsheet::XLSX;
 
 # Read a workbook from an existing file (can pass IO::Path or a
