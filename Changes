@@ -3,6 +3,7 @@ Revision history for Spreadsheet-XLSX
 {{$NEXT}}
     - Add /examples directory with sample Raku scripts
     - Add tests for the scripts
+    - Use Raku published package 'CSV::Table' to handle commented CSV files
 
 0.3.5  2026-01-11T15:22:43+01:00
     - Add source-url to dist.ini to aid PR handling

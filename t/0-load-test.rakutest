@@ -6,6 +6,7 @@ my @modules = <
     Spreadsheet::XLSX::Worksheet
     Spreadsheet::XLSX::XMLHelpers
     Spreadsheet::XLSX::ContentTypes
+    Spreadsheet::XLSX::Subs
     Spreadsheet::XLSX::Types
     Spreadsheet::XLSX::SharedStrings
     Spreadsheet::XLSX::CellStyle

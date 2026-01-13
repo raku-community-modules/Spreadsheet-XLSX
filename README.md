@@ -30,7 +30,7 @@ This module is currently in development, and supports the subset of XLSX format 
 
   * Reading and writing column properties (such as column width)
 
-See the `/examples directory` for some Raku scripts demonstrating its current state.
+See the `/examples directory` for some Raku scripts demonstrating its current state. Note the first example, `t/test-data/example.csv`, is a commented CSV file which can be handled easily with the published Raku package `CSV::Table` by `@tbrowder (Tom Browder)`.
 
 SYNOPSIS
 ========

@@ -1,7 +1,8 @@
-Add 3-OS testing
-  + use zef instead of Prove6
-
 Add or create an example of creating an xlsx file from a CSV file
+  DONE + use a commented CSV file
   + use various field separators
   + consider a headerless version: how to handle
-      - assumptions?
+       assumptions?
+
+Add 3-OS testing
+  + use zef instead of Prove6

@@ -39,7 +39,10 @@ worksheets
 
 =item Reading and writing column properties (such as column width)
 
-See the C</examples directory> for some Raku scripts demonstrating its current state.
+See the C</examples directory> for some Raku scripts demonstrating its
+current state.  Note the first example, C<t/test-data/example.csv>, is
+a commented CSV file which can be handled easily with the published
+Raku package C<CSV::Table> by C<@tbrowder (Tom Browder)>.
 
 =head1 SYNOPSIS
 
