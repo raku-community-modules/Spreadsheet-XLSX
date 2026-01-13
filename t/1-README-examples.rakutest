@@ -60,8 +60,40 @@ lives-ok {
     my $typ = $res.out.slurp(:close);
     $typ .= trim;
     say "File type is: $typ" if $debug;
-    cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", "got correct file type: Excel";
-
+    cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
+        "got correct file type: Excel";
 }, "example scripts run ok";
+
+lives-ok {
+    # convert a CSV file to an XLSX file
+
+    my $csv-fil = "t/test-data/example-pipes.csv";
+    my $xlsx = "example-pipes.xlsx";
+
+    run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx", "force", :out;
+
+    my $res = shell "file $xlsx", :out;
+    my $typ = $res.out.slurp(:close);
+    $typ .= trim;
+    say "File type is: $typ" if $debug;
+    cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
+        "got correct file type: Excel";
+}, "example pipes scripts run ok";
+
+lives-ok {
+    # convert a CSV file to an XLSX file
+
+    my $csv-fil = "t/test-data/example-semis.csv";
+    my $xlsx = "example-semis.xlsx";
+
+    run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx", "force", :out;
+
+    my $res = shell "file $xlsx", :out;
+    my $typ = $res.out.slurp(:close);
+    $typ .= trim;
+    say "File type is: $typ" if $debug;
+    cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
+        "got correct file type: Excel";
+}, "example semis scripts run ok";
 
 done-testing;

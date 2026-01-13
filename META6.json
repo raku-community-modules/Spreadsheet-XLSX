@@ -12,6 +12,7 @@
     "runtime": {
       "requires": [
         "CSV::Table",
+        "MacOS::NativeLib",
         "Libarchive",
         "LibXML:ver<0.10.19+>"
       ]
@@ -31,6 +32,7 @@
     "Spreadsheet::XLSX::Root": "lib/Spreadsheet/XLSX/Root.rakumod",
     "Spreadsheet::XLSX::SharedStrings": "lib/Spreadsheet/XLSX/SharedStrings.rakumod",
     "Spreadsheet::XLSX::Styles": "lib/Spreadsheet/XLSX/Styles.rakumod",
+    "Spreadsheet::XLSX::Subs": "lib/Spreadsheet/XLSX/Subs.rakumod",
     "Spreadsheet::XLSX::Types": "lib/Spreadsheet/XLSX/Types.rakumod",
     "Spreadsheet::XLSX::Workbook": "lib/Spreadsheet/XLSX/Workbook.rakumod",
     "Spreadsheet::XLSX::Worksheet": "lib/Spreadsheet/XLSX/Worksheet.rakumod",

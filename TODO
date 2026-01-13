@@ -1,8 +1,10 @@
 Add or create an example of creating an xlsx file from a CSV file
   DONE + use a commented CSV file
-  + use various field separators
+  DONE + use various field separators
   + consider a headerless version: how to handle
        assumptions?
 
+Expand capability to ease cvs2xlsx formatting
+
 Add 3-OS testing
-  + use zef instead of Prove6
+  + use zef for MacOS and Windows

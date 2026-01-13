@@ -4,6 +4,13 @@ Revision history for Spreadsheet-XLSX
     - Add /examples directory with sample Raku scripts
     - Add tests for the scripts
     - Use Raku published package 'CSV::Table' to handle commented CSV files
+    - Add a new module, Spreadsheet::XLSX::Subs, to convert CSV files to 
+        Microsoft Excel format version 2007+
+        + Add tests to ensure the output files are indeed that format
+        + Add rudimentary subs to convert Numeric and text arguments
+          to their euivalent XLSX classes in order to simplify coding
+    - Update TODO accordingly
+    - Add 3-OS tests
 
 0.3.5  2026-01-11T15:22:43+01:00
     - Add source-url to dist.ini to aid PR handling

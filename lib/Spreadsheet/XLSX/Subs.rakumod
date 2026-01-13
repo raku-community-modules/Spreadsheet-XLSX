@@ -79,15 +79,17 @@ sub csv2xslx(
         my $col-num = $i;
         if $text ~~ Numeric {
             $ws.cells[$row-num;$col-num] = 
-                Spreadsheet::XLSX::Cell::Number.new(value => $text);
-            $ws.cells[$row-num;$col-num].style.number-format = "#,###";
+                number2xlsx($text, "#,###");
+#               Spreadsheet::XLSX::Cell::Number.new(value => $text);
+#           $ws.cells[$row-num;$col-num].style.number-format = "#,###";
 
             #$ws.set($row-num, $col-num, $text, :number-format("#,###"));
         }
         else {
             $ws.cells[$row-num;$col-num] = 
-                Spreadsheet::XLSX::Cell::Text.new(value => $text);
-            $ws.cells[$row-num;$col-num].style.bold = True;
+                text2xlsx($text, @styles);
+#               Spreadsheet::XLSX::Cell::Text.new(value => $text);
+#           $ws.cells[$row-num;$col-num].style.bold = True;
 
             #$ws.set($row-num, $col-num, $text, :bold);
         }
@@ -110,15 +112,18 @@ sub csv2xslx(
             my $col-num = $j;
             if $text ~~ Numeric {
                 $ws.cells[$row-num;$col-num] = 
-                    Spreadsheet::XLSX::Cell::Number.new(value => $text);
-                $ws.cells[$row-num;$col-num].style.number-format = "#,###";
+                    number2xlsx($text, "#,###");
+#                   Spreadsheet::XLSX::Cell::Number.new(value => $text);
+#               $ws.cells[$row-num;$col-num].style.number-format = "#,###";
 
                 #$ws.set($row-num, $col-num, $text, :number-format("#,###"));
             }
             else {
+                my @styles = [bold];
                 $ws.cells[$row-num;$col-num] = 
-                    Spreadsheet::XLSX::Cell::Text.new(value => $text);
-                $ws.cells[$row-num;$col-num].style.bold = True;
+                    text2xlsx($text, @styles);
+#                   Spreadsheet::XLSX::Cell::Text.new(value => $text);
+#               $ws.cells[$row-num;$col-num].style.bold = True;
 
                 #$ws.set($row-num, $col-num, $text, :bold);
             }
