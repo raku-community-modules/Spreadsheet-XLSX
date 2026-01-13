@@ -86,6 +86,7 @@ sub csv2xslx(
             #$ws.set($row-num, $col-num, $text, :number-format("#,###"));
         }
         else {
+            my @styles = ["bold"];
             $ws.cells[$row-num;$col-num] = 
                 text2xlsx($text, @styles);
 #               Spreadsheet::XLSX::Cell::Text.new(value => $text);
@@ -119,7 +120,7 @@ sub csv2xslx(
                 #$ws.set($row-num, $col-num, $text, :number-format("#,###"));
             }
             else {
-                my @styles = [bold];
+                my @styles = ["bold"];
                 $ws.cells[$row-num;$col-num] = 
                     text2xlsx($text, @styles);
 #                   Spreadsheet::XLSX::Cell::Text.new(value => $text);
