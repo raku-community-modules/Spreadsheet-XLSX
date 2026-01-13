@@ -140,21 +140,31 @@ sub csv2xslx(
 # helpers
 sub number2xlsx(
     Numeric $number,
-    Str     $format = "",
+    Str     $format is copy = "",
     --> Mu
     ) {
     # $ws.cells[$row-num;$col-num] = 
     #     Spreadsheet::XLSX::Cell::Number.new(value => $text);
     # $ws.cells[$row-num;$col-num].style.number-format = "#,###";
     my $obj = Spreadsheet::XLSX::Cell::Number.new(value => $number);
+
+    # use any provided format
     if $format.chars {
         $obj.style.number-format = $format;
         return $obj;
     }
-    # determine from the number
+    # otherwise, determine from the number
+    if $number ~~ /'.' (\d+) / {
+        my $nd = +$0;
+        my $s = "";
+        $s ~= '#' for 1..$nd;
 
-
-
+        $format = "#,###.$s";
+    }
+    else {
+        $format = "#,###";
+    }
+    $obj.style.number-format = $format;
     $obj;
 }
 sub text2xlsx(
@@ -167,7 +177,7 @@ sub text2xlsx(
     my $obj = Spreadsheet::XLSX::Cell::Text.new(value => $text);
     # $ws.cells[$row-num;$col-num].style.bold = True;
     for @styles -> $style {
-        $obj.style.$style  = True;
+        $obj.style.$style = True;
     }
     $obj;
 }
