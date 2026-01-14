@@ -54,7 +54,7 @@ lives-ok {
     # be handled with the help of Raku package CSV::Table
     my $csv-fil = "t/test-data/example.csv";
     my $xlsx = "example.xlsx";
-    run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx", "force", :out;
+    run "examples/csv2xlsx.raku", "csv=$csv-fil", "xlsx=$xlsx", "force", :out, :err;
 
     my $res = shell "file $xlsx", :out;
     my $typ = $res.out.slurp(:close);
