@@ -1,8 +1,13 @@
 use Test;
 
 use CSV::Table;
+use File::Temp;
+
 use Spreadsheet::XLSX;
 use Spreadsheet::XLSX::Subs;
+
+my $host     = %*ENV<HOST>:exists ?? %*ENV<HOST> !! "unk";
+my $is-local = $host eq 'bigtom' ?? True !! False;
 
 my $debug = 0;
 
@@ -39,7 +44,20 @@ if $debug {
 my $csv = "t/test-data/example.csv";
 my $ct  = CSV::Table.new: :$csv;
 isa-ok $ct, CSV::Table;
-my $xlsx = "example0.xlsx";
+
+# do we need a tmpdir?
+
+my $xlsx-base = "example0.xlsx";
+my $xlsx;
+my $tmpdir;
+
+if $is-local {
+    $xlsx = $xlsx-base;
+}
+else {
+    $tmpdir = tempdir;
+    $xlsx   = "$tmpdir/$xlsx-base";
+}
 
 #=begin comment
 lives-ok {
@@ -62,11 +80,21 @@ lives-ok {
     # note the example.csv file has comments which can
     # be handled with the help of Raku package CSV::Table
     my $csv-fil = "t/test-data/example.csv";
-    my $xlsx = "example.xlsx";
+
+    my $xlsx-base = "example.xlsx";
+    my $xlsx;
+    if $is-local {
+        $xlsx = $xlsx-base;
+    }
+    else {
+        $tmpdir = tempdir;
+        $xlsx   = "$tmpdir/$xlsx-base";
+    }
+
     my $proc = run("examples/csv2xlsx.raku", "csv=$csv-fil", 
-                   "xlsx=$xlsx", "force", :out, :err);
-    my $out = $proc.out.slurp(:close);
-    my $err = $proc.err.slurp(:close);
+                   "xlsx=$xlsx", "debug","force", :out, :err);
+    my $outstr = $proc.out.slurp(:close);
+    my $errstr = $proc.err.slurp(:close);
     my $e   = $proc.exitcode;
     is $e, 1, "good exitcode $e";
 

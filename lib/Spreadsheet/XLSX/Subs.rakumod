@@ -43,7 +43,7 @@ sub csv2xlsx(
         exit;
     }
 
-    say "Working on the input CSV file ($csv)..." if $debug;
+    note "Working on the input CSV file ($csv)..." if $debug;
 
     my $ct = CSV::Table.new: :$csv;
     # iterate over the rows and columns
