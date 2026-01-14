@@ -2,6 +2,7 @@ use Test;
 
 use CSV::Table;
 use Spreadsheet::XLSX;
+use Spreadsheet::XLSX::Subs;
 
 my $debug = 0;
 
