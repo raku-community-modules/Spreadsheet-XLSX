@@ -1,9 +1,20 @@
 unit module Spreadsheet::XLSX::Subs;
 
+use Spreadsheet::XLSX;
+use Spreadsheet::XLSX::Cell;
+use Spreadsheet::XLSX::Root;
+use Spreadsheet::XLSX::XMLHelpers;
+use Spreadsheet::XLSX::Types;
+use LibXML::Document;
+use LibXML::Element;
+use LibXML::Attr;
+use Spreadsheet::XLSX::Exceptions;
+use Spreadsheet::XLSX::XMLHelpers;
+
 use CSV::Table;
 
-sub csv2xslx(
-    :$csv!,
+sub csv2xlsx(
+    :$csv!,  #= the input CSV file
     :$xlsx!,
     :$force  = False,
     :$header = True, 
@@ -65,7 +76,7 @@ sub csv2xslx(
             say();
         }
         say(); 
-    }
+    } # end a debug block
 
     # create a new workbook and add a worksheet
     my $wb = Spreadsheet::XLSX.new;
@@ -176,14 +187,16 @@ sub number2xlsx(
 sub text2xlsx(
     Str $text,
     @styles,
-    --> Mu
+#   --> Mu
     ) {
     # $ws.cells[$row-num;$col-num] = 
     #     Spreadsheet::XLSX::Cell::Text.new(value => $text);
     my $obj = Spreadsheet::XLSX::Cell::Text.new(value => $text);
     # $ws.cells[$row-num;$col-num].style.bold = True;
     for @styles -> $style {
-        $obj.style.$style = True;
+        if $style eq 'bold' {
+            $obj.style.bold = True;
+        }
     }
     $obj;
 }

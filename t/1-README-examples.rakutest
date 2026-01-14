@@ -36,9 +36,16 @@ if $debug {
 }
 
 # convert a CSV file to an XLSX file
-my $csv-fil = "t/test-data/example.csv";
-my $csv = CSV::Table.new: :csv($csv-fil);
-isa-ok $csv, CSV::Table;
+my $csv = "t/test-data/example.csv";
+my $ct  = CSV::Table.new: :$csv;
+isa-ok $ct, CSV::Table;
+my $xlsx = "example.xlsx";
+
+#=begin comment
+lives-ok {
+    csv2xlsx :$csv, :$xlsx, :force(True);
+}
+#=end comment
 
 # CSV contents:
 =begin comment
@@ -49,6 +56,7 @@ Wabash, Winston,, CA
 Powell, Bob          # no more data
 =end comment
 
+=begin comment
 lives-ok {
     # convert a CSV file to an XLSX file
     # note the example.csv file has comments which can
@@ -64,6 +72,7 @@ lives-ok {
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
 }, "example scripts run ok";
+=end comment
 
 =begin comment
 lives-ok {
@@ -81,7 +90,9 @@ lives-ok {
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
 }, "example pipes scripts run ok";
+=end comment
 
+=begin comment
 lives-ok {
     # convert a CSV file to an XLSX file
 
