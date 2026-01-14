@@ -150,7 +150,7 @@ sub csv2xlsx(
 
     # save it
     $wb.save: $xlsx;
-    say "See new xlsx file: $xlsx";
+    note "See new xlsx file: $xlsx";
 
 } # end of sub csv2xlsx
 
