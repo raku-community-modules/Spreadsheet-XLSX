@@ -149,7 +149,7 @@ sub csv2xlsx(
     =end comment
 
     # save it
-    $wb.save: $xlsx;
+    $wb.save: $xlsx.IO;
     note "See new xlsx file: $xlsx";
 
 } # end of sub csv2xlsx
