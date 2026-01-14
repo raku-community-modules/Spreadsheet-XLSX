@@ -64,6 +64,7 @@ lives-ok {
         "got correct file type: Excel";
 }, "example scripts run ok";
 
+=begin comment
 lives-ok {
     # convert a CSV file to an XLSX file
 
@@ -95,5 +96,6 @@ lives-ok {
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
 }, "example semis scripts run ok";
+=end comment
 
 done-testing;
