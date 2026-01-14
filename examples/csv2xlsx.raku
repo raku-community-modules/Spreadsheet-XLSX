@@ -3,6 +3,7 @@
 use Test;
 use CSV::Table;
 use Spreadsheet::XLSX;
+use Spreadsheet::XLSX::Subs;
 
 if not @*ARGS {
     print qq:to/HERE/;
