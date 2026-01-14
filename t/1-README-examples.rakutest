@@ -39,7 +39,7 @@ if $debug {
 my $csv = "t/test-data/example.csv";
 my $ct  = CSV::Table.new: :$csv;
 isa-ok $ct, CSV::Table;
-my $xlsx = "example.xlsx";
+my $xlsx = "example0.xlsx";
 
 #=begin comment
 lives-ok {
@@ -56,7 +56,7 @@ Wabash, Winston,, CA
 Powell, Bob          # no more data
 =end comment
 
-=begin comment
+#=begin comment
 lives-ok {
     # convert a CSV file to an XLSX file
     # note the example.csv file has comments which can
@@ -72,7 +72,7 @@ lives-ok {
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
 }, "example scripts run ok";
-=end comment
+#=end comment
 
 =begin comment
 lives-ok {
