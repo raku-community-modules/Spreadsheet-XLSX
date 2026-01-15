@@ -47,7 +47,8 @@ isa-ok $ct, CSV::Table;
 
 # do we need a tmpdir? yes, indeed
 
-my $xlsx-base = "example0.xlsx";
+my $xlsx-base;
+$xlsx-base = "example0.xlsx";
 my $xlsx;
 my $tmpdir = tempdir;
 my $tdir = mkdir "$tmpdir/dir";
@@ -71,7 +72,7 @@ lives-ok {
     say "File type is: $typ" if $debug;
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
-}
+}, "test output file '$xlsx-base";
 #=end comment
 
 # CSV contents:
@@ -84,6 +85,7 @@ Powell, Bob          # no more data
 =end comment
 
 #=begin comment
+$xlsx-base = "example.xlsx";
 lives-ok {
      
     # convert a CSV file to an XLSX file
@@ -91,7 +93,6 @@ lives-ok {
     # be handled with the help of Raku package CSV::Table
     my $csv-fil = "t/test-data/example.csv";
 
-    my $xlsx-base = "example.xlsx";
     my $xlsx;
     if $is-local {
         $xlsx = "$xlsx-base";
@@ -114,7 +115,7 @@ lives-ok {
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
 
-}, "example scripts run ok";
+}, "example scripts run ok; test output file '$xlsx-base";
 #=end comment
 
 =begin comment
