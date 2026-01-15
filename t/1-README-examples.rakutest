@@ -53,7 +53,8 @@ my $tmpdir = tempdir;
 my $tdir = mkdir "$tmpdir/dir";
 $tdir.IO.chmod(0o777);
 
-if 0 and $is-local {
+#if 0 and $is-local {
+if $is-local {
     $xlsx = $xlsx-base;
 }
 else {
@@ -63,6 +64,13 @@ else {
 #=begin comment
 lives-ok {
     csv2xlsx :$csv, :$xlsx, :force(True);
+
+    my $res = shell "file $xlsx", :out;
+    my $typ = $res.out.slurp(:close);
+    $typ .= trim;
+    say "File type is: $typ" if $debug;
+    cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
+        "got correct file type: Excel";
 }
 #=end comment
 
