@@ -186,7 +186,7 @@ sub number2xlsx(
 sub text2xlsx(
     Str $text,
     @styles,
-#   --> Mu
+    --> Mu
     ) {
     # $ws.cells[$row-num;$col-num] = 
     #     Spreadsheet::XLSX::Cell::Text.new(value => $text);
