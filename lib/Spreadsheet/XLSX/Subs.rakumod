@@ -148,10 +148,7 @@ sub csv2xlsx(
     $ws.set($row-num, $col-num, $number, :number-format("#,###"));
     =end comment
 
-    # save it
-    my $fh = open $xlsx, :a;
-    $fh.close;
-    $wb.save: $xlsx.IO;
+    $wb.save: $xlsx;
     note "See new xlsx file: $xlsx";
 
 } # end of sub csv2xlsx
