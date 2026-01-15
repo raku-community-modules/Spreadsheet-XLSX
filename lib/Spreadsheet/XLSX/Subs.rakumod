@@ -149,6 +149,8 @@ sub csv2xlsx(
     =end comment
 
     # save it
+    my $fh = open $xlsx, :w;
+    $fh.close;
     $wb.save: $xlsx.IO;
     note "See new xlsx file: $xlsx";
 
