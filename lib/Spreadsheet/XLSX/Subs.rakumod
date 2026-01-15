@@ -151,7 +151,7 @@ sub csv2xlsx(
     # save it
     my $fh = open $xlsx, :a;
     $fh.close;
-    $wb.save: $xlsx;
+    $wb.save: $xlsx.IO;
     note "See new xlsx file: $xlsx";
 
 } # end of sub csv2xlsx
