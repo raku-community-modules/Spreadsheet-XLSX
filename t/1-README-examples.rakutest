@@ -45,18 +45,19 @@ my $csv = "t/test-data/example.csv";
 my $ct  = CSV::Table.new: :$csv;
 isa-ok $ct, CSV::Table;
 
-# do we need a tmpdir?
+# do we need a tmpdir? yes, indeed
 
 my $xlsx-base = "example0.xlsx";
 my $xlsx;
-my $tmpdir;
+my $tmpdir = tempdir;
+my $tdir = mkdir "$tmpdir/dir";
+$tdir.IO.chmod(0o777);
 
 if $is-local {
     $xlsx = $xlsx-base;
 }
 else {
-    $tmpdir = tempdir;
-    $xlsx   = "$tmpdir/$xlsx-base";
+    $xlsx   = "$tdir/$xlsx-base";
 }
 
 #=begin comment
@@ -77,8 +78,6 @@ Powell, Bob          # no more data
 #=begin comment
 lives-ok {
      
-    my $dir = $*CWD;
-
     # convert a CSV file to an XLSX file
     # note the example.csv file has comments which can
     # be handled with the help of Raku package CSV::Table
@@ -87,11 +86,10 @@ lives-ok {
     my $xlsx-base = "example.xlsx";
     my $xlsx;
     if $is-local {
-        $xlsx = "$dir/$xlsx-base";
+        $xlsx = "$xlsx-base";
     }
     else {
-        $tmpdir = tempdir;
-        $xlsx   = "$tmpdir/$xlsx-base";
+        $xlsx   = "$tdir/$xlsx-base";
     }
 
     my $proc = run("examples/csv2xlsx.raku", "csv=$csv-fil", 
@@ -107,6 +105,7 @@ lives-ok {
     say "File type is: $typ" if $debug;
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
+
 }, "example scripts run ok";
 #=end comment
 
