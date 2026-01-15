@@ -101,19 +101,31 @@ lives-ok {
         $xlsx   = "$tdir/$xlsx-base";
     }
 
-    my $proc = run("examples/csv2xlsx.raku", "csv=$csv-fil", 
-                   "xlsx=$xlsx", "debug","force", :out, :err);
+    my $proc;
+    if not $is-local {
+        # with run we need a special trick to write to a file, per Google AI:
+        my $fh = open :w, $xlsx.IO or die "Unable to open path '$xlsx'";
+        $proc = run("examples/csv2xlsx.raku", "csv=$csv-fil", 
+                   "xlsx=$xlsx", "debug", "force", :out($fh), :err);
+    }
+    else {
+        $proc = run("examples/csv2xlsx.raku", "csv=$csv-fil", 
+                   "xlsx=$xlsx", "debug", "force", :out, :err);
+    }
+
     my $outstr = $proc.out.slurp(:close);
     my $errstr = $proc.err.slurp(:close);
     my $e   = $proc.exitcode;
     is $e, 1, "good exitcode $e";
 
+    if not $is-local {
     my $res = shell "file $xlsx", :out;
     my $typ = $res.out.slurp(:close);
     $typ .= trim;
     say "File type is: $typ" if $debug;
     cmp-ok $typ, '~~', "$xlsx: Microsoft Excel 2007+", 
         "got correct file type: Excel";
+    }
 
 }, "example scripts run ok; test output file '$xlsx-base";
 #=end comment
