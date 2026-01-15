@@ -148,7 +148,8 @@ sub csv2xlsx(
     $ws.set($row-num, $col-num, $number, :number-format("#,###"));
     =end comment
 
-    $wb.save: $xlsx;
+    my $ofil = $xlsx.IO;
+    $wb.save: $ofil;
     note "See new xlsx file: $xlsx";
 
 } # end of sub csv2xlsx
