@@ -6,5 +6,5 @@ Add or create an example of creating an xlsx file from a CSV file
 
 Expand capability to ease cvs2xlsx formatting
 
-Add 3-OS testing
+DONE Add 3-OS testing
   + use zef for MacOS and Windows
