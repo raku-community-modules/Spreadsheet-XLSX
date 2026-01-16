@@ -30,6 +30,8 @@ This module is currently in development, and supports the subset of XLSX format 
 
   * Reading and writing column properties (such as column width)
 
+See the `/examples directory` for some Raku scripts demonstrating its current state. Note the first example, `t/test-data/example.csv`, is a commented CSV file which can be handled easily with the published Raku package `CSV::Table` by `@tbrowder (Tom Browder)`.
+
 SYNOPSIS
 ========
 
@@ -37,6 +39,7 @@ Reading existing workbooks
 --------------------------
 
 ```raku
+use Macos::NativeLib '*';
 use Spreadsheet::XLSX;
 
 # Read a workbook from an existing file (can pass IO::Path or a
@@ -114,7 +117,8 @@ The content types of the workbook.
 
 Map of loaded relationships for paths. (Those never used are not in here.)
 
-### has Spreadsheet::XLSX::Workbook $.workbook
+class Attribute+{<anon|2>}.new(handles => $("create-worksheet", "worksheets", "shared-strings", "styles"))
+----------------------------------------------------------------------------------------------------------
 
 The workbook itself.
 
