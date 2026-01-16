@@ -1,6 +1,7 @@
 unit module Spreadsheet::XLSX::Subs;
 
 use Spreadsheet::XLSX;
+use Spreadsheet::XLSX::Workbook;
 use Spreadsheet::XLSX::Cell;
 use Spreadsheet::XLSX::Root;
 use Spreadsheet::XLSX::XMLHelpers;
@@ -15,10 +16,11 @@ use CSV::Table;
 
 sub csv2xlsx(
     :$csv!,  #= the input CSV file
-    :$xlsx!,
-    :$force  = False,
+#   :$xlsx!,
+#   :$force  = False,
     :$header = True, 
     :$debug,
+#   --> Spreadsheet:XLSX::Workbook:D
 ) is export {
     =begin comment
     =end comment
@@ -28,6 +30,7 @@ sub csv2xlsx(
         say "ERROR: The csv file, $csv, does not exist or is unreadable.";
         ++$errs;
     }
+=begin comment
     if $xlsx.IO.r {
         if $force {
             say "NOTE: The xslx file '$xlsx' is being overwritten.";
@@ -38,6 +41,7 @@ sub csv2xlsx(
             ++$errs;
         }
     }
+=end comment
     if $errs {
         say "FATAL: Too many errors.";
         exit;
@@ -148,9 +152,13 @@ sub csv2xlsx(
     $ws.set($row-num, $col-num, $number, :number-format("#,###"));
     =end comment
 
+    =begin comment
     my $ofil = $xlsx.IO;
     $wb.save: $ofil;
     note "See new xlsx file: $xlsx";
+    =end comment
+    # return the workbook object to the caller
+    $wb;
 
 } # end of sub csv2xlsx
 
