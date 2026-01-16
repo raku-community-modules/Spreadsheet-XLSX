@@ -9,7 +9,6 @@ Revision history for Spreadsheet-XLSX
         + Add rudimentary subs to convert Numeric and text arguments
           to their euivalent XLSX classes in order to simplify coding
     - Update TODO accordingly
-    - Add 3-OS tests
 
 0.3.5  2026-01-11T15:22:43+01:00
     - Add source-url to dist.ini to aid PR handling
